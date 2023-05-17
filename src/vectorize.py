@@ -15,10 +15,8 @@ Additional arguments for running the script (if not specified, the defaults 'vec
 '''
 
 # system tools
-from pathlib import Path
-import os
+import pathlib
 import argparse
-import logging
 import time
 
 # data wrangling
@@ -30,20 +28,30 @@ from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from joblib import dump
 
+# custom logger
+import sys
+sys.path.append(str(pathlib.Path(__file__).parents[1]))
+from utils.custom_logging import custom_logger # custom logger function
+
 
 ## helper functions ##
-def split_data(datafile, input_dir, X_col:str, Y_col:str, test_size=0.2, random_state=129):
+def split_data(datafile:str, input_dir:pathlib.Path, X_col:str, Y_col:str, test_size=0.2, random_state=129):
     '''
-    Read data file and split data into train and test. 
-    Args
-        datafile: name of datafile (CSV)
-        input_dir: directory where datafile is located
-        X_col: name of column in datafile that serve as X-values (data features)
-        Y_col: name of column in datafile that serve as the Y-values (labels)
-        test_size: ratio of split of data. Defaults to 0.2, creating an 80/20 split. 
-        random_state: to ensure reproducibility of split. Defaults to 129. 
+    Read data file and split data into train and test using scikit-learn's train_test_split
+
+    Args:
+        - datafile: name of datafile (CSV)
+        - input_dir: directory where datafile is located
+        - X_col: name of column in datafile that serve as X-values (data features)
+        - Y_col: name of column in datafile that serve as the Y-values (labels)
+        - test_size: ratio of split of data. Defaults to 0.2, creating an 80/20 split. 
+        - random_state: to ensure reproducibility of split. Defaults to 129. 
+    
+    Returns: 
+        - X_train, X_test, y_train, y_test: data split into X train/test features and Y train/test labels
+
     '''
-    data_path = os.path.join(input_dir, datafile)
+    data_path = input_dir / datafile
     data = pd.read_csv(data_path)
 
     # define X and Y 
@@ -64,16 +72,17 @@ def vectorize_data(X_data:list, vectorizer:str = "tfid",
     '''
     Vectorize data with either bag-of-words (BOW) or TF-IDF textual representation. 
     
-    Args
-        X_data: list containing X vector for train data and an X vector test data. 
-        vectorizer: bag-of-words or TF-IDF (specified as either 'tfid' or 'bow'). Defaults to 'tfid'
-        ngram_range: range of continous sequences (unigrams, bigrams, trigrams). Defaults to containing both unigrams and bigrams.
-        lowercase: whether the text should be lowercased or not. Defaults to True. 
-        max_min_df: range of words to be removed from vectorized data (max = common words, min = rare words). Defaults to 0.95 and 0.05.
-        max_features: Amount of features to be kept in vectorized data. Defaults to 500. 
-    Returns
-        vectorizer: vectorizer object
-        X_train_feats, X_test feats: vectorized arrays
+    Args:
+        - X_data: list containing X vector for train data and an X vector test data. 
+        - vectorizer: bag-of-words or TF-IDF (specified as either 'tfid' or 'bow'). Defaults to 'tfid'
+        - ngram_range: range of continous sequences (unigrams, bigrams, trigrams). Defaults to containing both unigrams and bigrams.
+        - lowercase: whether the text should be lowercased or not. Defaults to True. 
+        - max_min_df: range of words to be removed from vectorized data (max = common words, min = rare words). Defaults to 0.95 and 0.05.
+        - max_features: Amount of features to be kept in vectorized data. Defaults to 500. 
+   
+    Returns:
+        - vectorizer: vectorizer object
+        - X_train_feats, X_test feats: vectorized arrays
     '''
     
     # initialize either BOW of TFID vectorizer   
@@ -116,16 +125,15 @@ def input_parse():
 
     return args
 
-
 def main():
     start_time = time.time()
 
     # config logging, args
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+    logging = custom_logger("vectorize_logger")
     args = input_parse()
 
     # define paths
-    path = Path(__file__) # path to current file
+    path = pathlib.Path(__file__) # path to current file
     input_dir = path.parents[1] / "in"
     datafile = args.data
     model_outpath =  path.parents[1] / "models"
@@ -138,10 +146,10 @@ def main():
 
     # save data 
     logging.info(f"Saving {args.vectorizer} vectorizer & vectorized arrays")
-    np.savez(f"{input_dir}/{args.vectorizer}{args.n_features}f_data.npz", X_train_feats = X_train_feats, X_test_feats = X_test_feats, y_train = y_train, y_test = y_test) 
+    np.savez(input_dir/f"{args.vectorizer}{args.n_features}f_data.npz", X_train_feats = X_train_feats, X_test_feats = X_test_feats, y_train = y_train, y_test = y_test) 
 
     # save vectorizer
-    dump(vectorizer, f"{model_outpath}/{args.vectorizer}{args.n_features}f_vectorizer.joblib")
+    dump(vectorizer, model_outpath/f"{args.vectorizer}{args.n_features}f_vectorizer.joblib")
 
     # print elapsed time
     elapsed = round(time.time() - start_time, 2)

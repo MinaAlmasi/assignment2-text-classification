@@ -10,9 +10,9 @@ Import clf_pipeline into your script to run the entire pipeline or pick and choo
 '''
 
 # system tools
-from pathlib import Path
+import pathlib
 import sys
-sys.path.append(str(Path(__file__).parents[1]))
+sys.path.append(str(pathlib.Path(__file__).parents[1]))
 from utils.custom_logging import custom_logger # custom logger function
 from datetime import datetime
 
@@ -101,19 +101,22 @@ def clf_metrics_to_txt(txt_name, output_dir, clf_metrics, best_params=None):
     Outputs: 
         - .txt file in specified output_dir
     '''
+    # define filepath
+    filepath = output_dir / txt_name
+
     #if best_params is None, write the following:
     if best_params == None: 
-        with open(f'{output_dir}/{txt_name}.txt', "w") as file: 
+        with open(f"{filepath}.txt", "w") as file: 
             file.write(f"Results from model run at {datetime.now()} \n {clf_metrics}")
 
     #if best_params is specified (i.e., grid_search is performed, write the following)
     else: 
-        with open(f'{output_dir}/{txt_name}.txt', "w") as file: 
+        with open(f"{filepath}.txt", "w") as file: 
             file.write(f"Results from model with parameters: {best_params}. Run at {datetime.now()} \n {clf_metrics}")
 
 
-def clf_pipeline(classifier, X_train_feats, y_train, X_test_feats, y_test, output_dir, 
-                 save_model:bool=False, model_dir=None, grid_search:bool=False, param_grid=None, cv=None):
+def clf_pipeline(classifier, X_train_feats, y_train, X_test_feats, y_test, output_dir:pathlib.Path, 
+                 save_model:bool=False, model_dir:pathlib.Path=None, grid_search:bool=False, param_grid=None, cv=None):
     '''
     Classifier pipeline which does model fitting and model evaluation of an instantiated classifier. 
     Additionally, it can perform grid search of a parameter space (param_grid) if grid_search is set to True. 
@@ -141,6 +144,10 @@ def clf_pipeline(classifier, X_train_feats, y_train, X_test_feats, y_test, outpu
     logging = custom_logger("pipeline")
     classifier_name = clf_get_name(classifier)
 
+    # create path if they do not exist
+    output_dir.mkdir(exist_ok=True, parents=True)
+    model_dir.mkdir(exist_ok=True, parents=True)
+
     # if grid_search is set to True, do grid search to find the best model and return that model ! 
     if grid_search == True: 
         logging.info(f"Commencing grid search for {classifier_name} with {cv} cv folds")
@@ -166,6 +173,7 @@ def clf_pipeline(classifier, X_train_feats, y_train, X_test_feats, y_test, outpu
 
     # save model only if specified
     if save_model == True:
-        dump(classifier, f"{model_dir}/{classifier_name}_{X_test_feats.shape[1]}f_classifier.joblib")
+        filepath = model_dir /  f"{classifier_name}_{X_test_feats.shape[1]}f_classifier"
+        dump(classifier, f"{filepath}.joblib")
     
     return classifier

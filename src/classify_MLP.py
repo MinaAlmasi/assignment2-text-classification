@@ -5,28 +5,27 @@ This script is made to train a simple neural network (MLPClassifier()) on a vect
 The hyperparameters are set following a grid search upon a defined parameter space. 
 
 Run the script by typing in the command line: 
-    python src/classify_MLP.py
+    python src/classify_MLP.py -d {VECTORIZED_DATAFILE}
 
-Additional arguments for running the script (if not specified, the default 'd = tfid500f_data.npz' will run)
-    -d (for vectorized datafile)
+Where:
+-d refers to datafile (vectorized). Defaults to tfid500f_data.npz
 
 @MinaAlmasi
 '''
 
 # system tools
-from pathlib import Path
+import pathlib
 import time
 
 # custom utils 
 import sys
-sys.path.append(str(Path(__file__).parents[1]))
+sys.path.append(str(pathlib.Path(__file__).parents[1]))
 from utils.custom_logging import custom_logger
 from utils.classify_dataload import load_npz_vec_data, input_parse
 
 # machine learning
 from classify_pipeline import clf_pipeline
 from sklearn.neural_network import MLPClassifier
-
 
 def main():
     start_time = time.time()
@@ -36,7 +35,7 @@ def main():
     args = input_parse()
 
     # define paths
-    path = Path(__file__) # path to current file
+    path = pathlib.Path(__file__) # path to current file
     input_dir = path.parents[1] / "in" 
     datafile = args.data
 
