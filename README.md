@@ -90,7 +90,7 @@ The ```-d``` argument can also be used when training classifiers to run them on 
 
 ## Results
 
-### Logistic regression
+### Logistic Regression (LR)
 The best model was with the parameters {'C': 10.0, 'penalty': 'l2', 'solver': 'saga'}.
 ```
                precision    recall  f1-score   support
