@@ -6,7 +6,7 @@ This repository forms *assignment 2* by Mina Almasi (202005465) in the subject *
 The repository contains code for training and evaluating a logistic regression and a neural network classifier using ```scikit-learn``` in a binary classification task (see [Results](https://github.com/MinaAlmasi/assignment2-text-classification/tree/main#results) for their final performance). As a bonus, the training also involves a short grid search to optimise the hyperparameters for each model. 
 
 ## Data
-The classifiers are trained on the [Fake or Real News](https://www.kaggle.com/datasets/jillanisofttech/fake-or-real-news) dataset. The dataset contains the title (headline), text and label (```FAKE``` or ```REAL```) of 7796 articles. The dataset is located in the ```in``` folder. 
+The classifiers are trained on the [Fake or Real News](https://www.kaggle.com/datasets/jillanisofttech/fake-or-real-news) dataset. The dataset contains the title (headline), text and label (```FAKE``` or ```REAL```) of 7796 articles. The classifcation task is to predict whether the ```text``` column comes from a ```FAKE``` or ```REAL``` news article. The ```text``` column is vectorized prior to this. The original dataset and the vectorized data are located in the ```in``` folder. 
  
 ## Reproducibility
 To reproduce the results, follow the instructions in the [*Pipeline*](https://github.com/MinaAlmasi/assignment2-text-classification/tree/main#pipeline) section. 
@@ -55,7 +55,6 @@ Prior to running the classification pipeline,  run ```setup.sh``` to create a vi
 bash setup.sh
 ```
 
-
 ### Running the Classification Pipeline
 To run the entire pipeline, type ```run.sh``` in the terminal:
 ```
@@ -66,7 +65,6 @@ Alternatively, you can run only the training and evaluation of the models sepera
 ```
 bash run-LR.sh
 ```
-
 
 ### Running Vectorization (Custom Vectorization)
 If you wish to run the vectorization with a bag-of-words representation or with more/less features in the vectorized data, you can run ```vectorize.py``` with additional arguments:
@@ -116,10 +114,11 @@ weighted avg       0.90      0.90      0.90      1267
 ```
 
 ### Remarks on the Results
-Interestingly, both classifiers are identical in performance. Their weighted F1 scores (```0.90```) are impressive and indicate there is a clear difference in the vocabulary used in ```FAKE``` versus ```REAL``` news. While it is not certain that this difference is noticable for humans, the machines are at least able to pick up on it with training.
+Interestingly, both classifiers are identical in performance. Both models have high weighted F1 scores (```0.90```). These scores indicate that there is a clear difference in the vocabulary used in ```FAKE``` versus ```REAL``` news. While it is not certain that this difference is noticable for humans, the machines are at least able to pick up on it with training.
 
 ## Author 
 This repository was created by Mina Almasi:
+
 - github user: @MinaAlmasi
 - student no: 202005465, AUID: au675000
 - mail: mina.almasi@post.au.dk 
