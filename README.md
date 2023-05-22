@@ -6,7 +6,7 @@ This repository forms *assignment 2* by Mina Almasi (202005465) in the subject *
 The repository contains code for training and evaluating a logistic regression and a neural network classifier using ```scikit-learn``` in a binary classification task (see [Results](https://github.com/MinaAlmasi/assignment2-text-classification/tree/main#results) for their final performance). As a bonus, the training also involves a short grid search to optimise the hyperparameters for each model. 
 
 ## Data
-The classifiers are trained on the [Fake or Real News](https://www.kaggle.com/datasets/jillanisofttech/fake-or-real-news) dataset. The dataset contains the title (headline), text and label (```FAKE``` or ```REAL```) of 7796 articles. The classifcation task is to predict whether the ```text``` column comes from a ```FAKE``` or ```REAL``` news article. The ```text``` column is vectorized prior to this. The original dataset and the vectorized data are located in the ```in``` folder. 
+The classifiers are trained on the [Fake or Real News](https://www.kaggle.com/datasets/jillanisofttech/fake-or-real-news) dataset. The dataset contains the title (headline), text and label (```FAKE``` or ```REAL```) of 7796 articles. The classifiction task is to predict whether the ```text``` column comes from a ```FAKE``` or ```REAL``` news article. The ```text``` column is vectorized prior to this. The original dataset and the vectorized data are located in the ```in``` folder. 
  
 ## Reproducibility
 To reproduce the results, follow the instructions in the [*Pipeline*](https://github.com/MinaAlmasi/assignment2-text-classification/tree/main#pipeline) section. 
