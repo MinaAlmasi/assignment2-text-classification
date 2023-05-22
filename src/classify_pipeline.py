@@ -4,7 +4,7 @@ Script for Assignment 2, Language Analytics, Cultural Data Science, F2023
 This script comprises several functions which make up a pipeline for fitting and evaluating a scikit-learn classifier. 
 The classification pipeline also includes a grid search function (relying on scikit-learn's GridSearchCV) which can optionally be set to run.
 
-Import clf_pipeline into your script to run the entire pipeline or pick and choose ! 
+Import 'clf_pipeline' into your script to run the entire pipeline or pick and choose ! 
 
 @MinaAlmasi
 '''

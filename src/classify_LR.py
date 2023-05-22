@@ -7,8 +7,8 @@ The hyperparameters are set following a grid search upon a defined parameter spa
 Run the script by typing in the command line: 
     python src/classify_LR.py -d {VECTORIZED_DATAFILE}
 
-Where:
--d refers to datafile (vectorized). Defaults to tfid500f_data.npz
+Additional arguments for running the script:
+-d: datafile (vectorized .npz). Defaults to 'tfid500f_data.npz'
 
 @MinaAlmasi
 '''

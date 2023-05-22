@@ -3,13 +3,15 @@ Script for Assignment 2, Language Analytics, Cultural Data Science, F2023
 
 This script is intended for machine learning purposes with vectorized data. 
 It will read a CSV file with a 'text' column and 'label' column, split the data into a test and training dataset and vectorize the dataset using either a Bag-of-Words or TF-IDF textual representation. 
-The vectorizer and vectorized data will be saved in the "in" and "models" folder, respectively. It futhermore contains helper 
+The vectorizer and vectorized data will be saved in the "in" and "models" folder, respectively.
 
 Run the script by typing in the command line: 
-    python src/vectorize.py
+    - python src/vectorize.py -vec {VEC_TYPE} -n {NUMBER_OF_FEATURES} -d {CSV_DATAFILE}
 
-Additional arguments for running the script (if not specified, the defaults 'vec = tfid', 'n = 500' and 'd = fake_or_real_news.csv' will run)
-    -vec (for the type of vectorizer), -n (for N features to keep in the vectorization) and -d (for datafile)
+Additional arguments for running the script:
+    -vec: the type of vectorizer - choose either 'tfid' or 'bow.' Defaults to 'tfid'
+    -n: Number of features to keep in the vectorization (int). Defaults to '500'. 
+    -d: datafile (.CSV). Defaults to 'fake_or_real_news.csv'
 
 @MinaAlmasi
 '''
